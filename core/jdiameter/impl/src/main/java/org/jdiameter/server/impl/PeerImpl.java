@@ -366,12 +366,13 @@ public class PeerImpl extends org.jdiameter.client.impl.controller.PeerImpl impl
         }
         IRealmTable realmTable = router.getRealmTable();
 
-        if (!realmTable.realmExists(destRealm)) {
+        //We're not doing this entire part
+        /*if (!realmTable.realmExists(destRealm)) {
           // send no such realm answer.
           logger.warn("Received a request for an unrecognized realm: [{}]. Answering with 3003 (DIAMETER_REALM_NOT_SERVED) Result-Code.", destRealm);
           sendErrorAnswer(message, null, ResultCode.REALM_NOT_SERVED);
           return true;
-        }
+        }*/
         ApplicationId appId = message.getSingleApplicationId();
         if (appId == null) {
           logger.warn("Receive a message with no Application Id. Answering with 5005 (MISSING_AVP) Result-Code.");
@@ -410,7 +411,10 @@ public class PeerImpl extends org.jdiameter.client.impl.controller.PeerImpl impl
                 // We don't support it locally, its not defined as remote, so send no such realm answer.
                 sendErrorAnswer(message, null, ResultCode.APPLICATION_UNSUPPORTED);
                 // or REALM_NOT_SERVED ?
-                return true;
+                //return true;
+
+                //if mirroring is allowed, we proceed with action local
+                action = LocalAction.LOCAL;
               }
 
               switch (action) {
@@ -448,9 +452,11 @@ public class PeerImpl extends org.jdiameter.client.impl.controller.PeerImpl impl
                 // RFC 3588 // 6.1
                 //   4. If none of the above is successful, an answer is returned with the
                 //   Result-Code set to DIAMETER_UNABLE_TO_DELIVER, with the E-bit set.
-                logger.warn("Received message for unknown peer [{}]. Answering with 3002 (UNABLE_TO_DELIVER) Result-Code.", destHost);
-                sendErrorAnswer(req, "No connection to peer", ResultCode.UNABLE_TO_DELIVER);
-                isProcessed = true;
+                logger.warn("[Bypassed] Received message for unknown peer [{}]. Answering with 3002 (UNABLE_TO_DELIVER) Result-Code.", destHost);
+                //sendErrorAnswer(req, "No connection to peer", ResultCode.UNABLE_TO_DELIVER);
+//                isProcessed = true;
+                isProcessed = consumeMessage(message);
+
               }
             }
           }

@@ -89,6 +89,10 @@ public class Parameters extends Ordinal {
    */
   public static final Parameters OwnFirmwareRevision = new Parameters("OwnFirmwareRevision", Long.class, 0L);
 
+//  public static final Parameters MirrorControl = new Parameters("MirrorControl", String.class, "");
+
+
+
   /**
    * Task executor task queue size  property
    */

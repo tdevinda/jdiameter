@@ -83,6 +83,15 @@
                     <xsi:attribute name="value" type="xsi:integer" use="required" />
                 </xsi:complexType>
             </xsi:element>
+            <xsi:element name="MirrorControl" minOccurs="0" maxOccurs="1">
+                <xsi:annotation>
+                    <xsi:documentation>Ability to receive mirrored diameter messages towards us</xsi:documentation>
+                </xsi:annotation>
+                <xsi:complexType>
+                    <xsi:attribute name="acceptOtherRealms" type="xsi:boolean" use="required" />
+                    <xsi:attribute name="acceptOtherHosts" type="xsi:boolean" use="required" />
+                </xsi:complexType>
+            </xsi:element>
             <xsi:element ref="Applications" minOccurs="0" maxOccurs="1" />
         </xsi:sequence>
         <xsi:attribute name="security_ref" type="xsi:string" />

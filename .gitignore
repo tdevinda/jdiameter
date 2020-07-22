@@ -29,3 +29,5 @@ target
 Icon?
 ehthumbs.db
 Thumbs.db
+
+*.sh
